@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.freemimp.android.aroundme.BuildConfig
 import com.freemimp.android.aroundme.di.annotations.AppContext
+import com.freemimp.android.aroundme.data.FourSquareApi
 import com.google.gson.Gson
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Lazy
@@ -66,7 +67,11 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun apiAuthenticationInterceptor() = injectQueryParams(CLIENT_ID to BuildConfig.CLIENT_ID, CLIENT_SECRET to BuildConfig.CLIENT_SECRET)
+    fun apiAuthenticationInterceptor() = injectQueryParams(
+            CLIENT_ID to BuildConfig.CLIENT_ID,
+            CLIENT_SECRET to BuildConfig.CLIENT_SECRET,
+            API_QUERY_V to API_VERSION_DATE
+    )
 
     private fun injectQueryParams(vararg params: Pair<String, String>): Interceptor = Interceptor { chain ->
 
@@ -79,11 +84,17 @@ class NetworkModule {
         chain.proceed(newRequest)
     }
 
+    @Provides
+    fun provideFourSquareApi(retrofit: Retrofit): FourSquareApi = retrofit.create(FourSquareApi::class.java)
+
     companion object {
         val Tag: String = NetworkModule::class.java.simpleName
         const val CONNECTION_TIMEOUT = 15L
         const val CLIENT_ID = "client_id"
         const val CLIENT_SECRET = "client_secret"
+        const val API_VERSION_DATE = "20190329"
+        const val API_QUERY_V = "v"
+
 
     }
 }

@@ -1,4 +1,4 @@
-package com.freemimp.android.aroundme.mvvm
+package com.freemimp.android.aroundme.presentation
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider

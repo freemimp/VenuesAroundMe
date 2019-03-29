@@ -1,10 +1,11 @@
-package com.freemimp.android.aroundme
+package com.freemimp.android.aroundme.presentation
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.freemimp.android.aroundme.ui.home.HomeFragment
+import com.freemimp.android.aroundme.R
+import com.freemimp.android.aroundme.presentation.home.HomeFragment
+import dagger.android.support.DaggerAppCompatActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : DaggerAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

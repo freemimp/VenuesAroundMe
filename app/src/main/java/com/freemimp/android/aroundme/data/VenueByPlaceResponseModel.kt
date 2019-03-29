@@ -1,4 +1,4 @@
-package com.freemimp.android.aroundme.restapi.models
+package com.freemimp.android.aroundme.data
 
 import com.google.gson.annotations.SerializedName
 
