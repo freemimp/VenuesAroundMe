@@ -12,9 +12,9 @@ import javax.inject.Inject
 class FourSquareVenueService @Inject constructor(private val api: FourSquareApi) : VenueRepository {
 
 
-    override fun findVenues(place: String, limit: Int): Maybe<List<Venue>> {
+    override suspend fun findVenues(place: String, limit: Int): Maybe<List<Venue>> {
         return try {
-            val request = api.getVenues(place, limit)
+            val request = api.getVenues(place, limit).await()
 
             if (request.isSuccessful) {
                 val venues = mapToDomainModel(request)
@@ -27,9 +27,9 @@ class FourSquareVenueService @Inject constructor(private val api: FourSquareApi)
         }
     }
 
-    override fun getVenuesFrom(offset: Int, place: String): Maybe<List<Venue>> {
+    override suspend fun getVenuesFrom(offset: Int, place: String): Maybe<List<Venue>> {
         return try {
-            val request = api.getVenuesFrom(offset, place)
+            val request = api.getVenuesFrom(place, offset).await()
 
             if (request.isSuccessful) {
                 val venues = mapToDomainModel(request)

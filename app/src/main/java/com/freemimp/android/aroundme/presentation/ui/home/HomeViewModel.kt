@@ -12,11 +12,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class HomeViewModel @Inject constructor(private val venueDataSourceFactory: VenueDataSourceFactory, private val venueRepository: VenueRepository) : ViewModel() {
+class HomeViewModel @Inject constructor(private val venueDataSourceFactory: VenueDataSourceFactory, private val venueRepository: VenueRepository, private val api: FourSquareApi) : ViewModel() {
 
     private val pageListConfig = PagedList.Config.Builder()
         .setEnablePlaceholders(true)
-        .setInitialLoadSizeHint(10)
+        .setInitialLoadSizeHint(20)
         .setPageSize(10)
         .build()
 
@@ -27,7 +27,9 @@ class HomeViewModel @Inject constructor(private val venueDataSourceFactory: Venu
     fun fetchVenues(place: String) {
        CoroutineScope(Dispatchers.IO).launch {
            venueRepository.findVenues(place,10)
+
        }
+
     }
 
     fun validPlace(place: String?): Boolean = !place.isNullOrBlank()
