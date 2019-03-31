@@ -54,8 +54,18 @@ data class Venue(
 )
 
 data class Location(
-        @SerializedName("formattedAddress")
-        val formattedAddress: List<String>
+        @SerializedName("address")
+        val address: String,
+        @SerializedName("cc")
+        val cc: String,
+        @SerializedName("city")
+        val city: String,
+        @SerializedName("country")
+        val country: String,
+        @SerializedName("postalCode")
+        val postalCode: String,
+        @SerializedName("state")
+        val state: String
 )
 
 

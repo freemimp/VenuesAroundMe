@@ -1,17 +1,32 @@
 package com.freemimp.android.aroundme.presentation.ui.home
 
 import android.arch.lifecycle.ViewModel
+import android.arch.paging.LivePagedListBuilder
+import android.arch.paging.PagedList
 import com.freemimp.android.aroundme.data.FourSquareApi
+import com.freemimp.android.aroundme.domain.Venue
+import com.freemimp.android.aroundme.domain.VenueRepository
+import com.freemimp.android.aroundme.presentation.pagination.VenueDataSourceFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class HomeViewModel @Inject constructor(private val fourSquareApi: FourSquareApi) : ViewModel() {
+class HomeViewModel @Inject constructor(private val venueDataSourceFactory: VenueDataSourceFactory, private val venueRepository: VenueRepository) : ViewModel() {
+
+    private val pageListConfig = PagedList.Config.Builder()
+        .setEnablePlaceholders(true)
+        .setInitialLoadSizeHint(10)
+        .setPageSize(10)
+        .build()
+
+    val venues = LivePagedListBuilder<Int, Venue>(venueDataSourceFactory, pageListConfig).build()
+
+
 
     fun fetchVenues(place: String) {
        CoroutineScope(Dispatchers.IO).launch {
-           fourSquareApi.getVenues(place)
+           venueRepository.findVenues(place,10)
        }
     }
 
