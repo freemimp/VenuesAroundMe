@@ -9,7 +9,7 @@ class FindVenues @Inject constructor(private val repository: VenueRepository) {
 
     }
 
-   suspend fun findVenuesFrom(offset: Int, place: String): Maybe<List<Venue>> {
-        return repository.getVenuesFrom(offset, place)
+   suspend fun findVenuesFrom(limit: Int,offset: Int, place: String): Maybe<List<Venue>> {
+        return repository.findVenues(place, limit, offset)
     }
 }

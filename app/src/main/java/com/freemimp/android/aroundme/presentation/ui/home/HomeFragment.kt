@@ -12,8 +12,10 @@ import android.view.ViewGroup
 import com.freemimp.android.aroundme.R
 import com.freemimp.android.aroundme.domain.Venue
 import com.freemimp.android.aroundme.presentation.ViewModelFactory
+import com.freemimp.android.aroundme.presentation.pagination.Place
 import com.freemimp.android.aroundme.presentation.recyclerview.VenueAdapter
 import com.freemimp.android.aroundme.presentation.ui.home.HomeViewModel
+import com.freemimp.android.aroundme.utils.hideKeyboard
 import com.freemimp.android.aroundme.utils.snackbar
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.home_fragment.*
@@ -23,6 +25,9 @@ class HomeFragment : DaggerFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
+    @Inject
+    lateinit var place: Place
 
     private lateinit var viewModel: HomeViewModel
 
@@ -43,9 +48,21 @@ class HomeFragment : DaggerFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         actionButton.setOnClickListener { showVenues() }
+
         viewModel.venues.observe(this, Observer {pagedListOfVenues ->
             pagedListOfVenues?.let {
                 present(pagedListOfVenues)
+            }
+        })
+        viewModel.error.observe(this, Observer { error ->
+            error?.getContentIfNotHandled()?.let {
+                snackbar(it)
+            }
+        })
+
+        viewModel.getSourceErrors()?.observe(this, Observer { error ->
+            error?.getContentIfNotHandled()?.let {
+                snackbar(it.localizedMessage)
             }
         })
     }
@@ -61,12 +78,9 @@ recyclerViewAdapter.submitList(pagedListOfVenues)
     }
 
     private fun showVenues() {
-       val place = placesTextView.text.toString()
-       if (viewModel.validPlace(place)) {
-           viewModel.fetchVenues(place)
-       } else {
-            snackbar(getString(R.string.error_invalid_place))
-       }
+       val query = placesTextView.text.toString()
+        place.query = query
+        viewModel.fetchVenues(query)
    }
 
     companion object {

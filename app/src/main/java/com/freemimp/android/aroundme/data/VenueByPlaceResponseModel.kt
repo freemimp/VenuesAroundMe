@@ -29,7 +29,7 @@ data class Group(
         val items: List<Item>,
         @SerializedName("name")
         val name: String,
-        @SerializedName("type")
+        @SerializedName("venueType")
         val type: String
 )
 

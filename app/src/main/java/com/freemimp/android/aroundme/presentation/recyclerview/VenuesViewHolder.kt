@@ -24,7 +24,7 @@ class VenuesViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         this.venue = venue
 
         itemView.nameTextView.text = venue?.name
-        itemView.categoryTextView.text = venue?.type
+        itemView.categoryTextView.text = venue?.venueType
         itemView.addressTextView.text = "${venue?.address?.address}, ${venue?.address?.city}, ${venue?.address?.postalCode} "
     }
 }

@@ -3,8 +3,8 @@ package com.freemimp.android.aroundme.di.modules
 import android.content.Context
 import android.util.Log
 import com.freemimp.android.aroundme.BuildConfig
-import com.freemimp.android.aroundme.di.annotations.AppContext
 import com.freemimp.android.aroundme.data.FourSquareApi
+import com.freemimp.android.aroundme.di.annotations.AppContext
 import com.google.gson.Gson
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Lazy
@@ -89,11 +89,11 @@ class NetworkModule {
 
     companion object {
         val Tag: String = NetworkModule::class.java.simpleName
-        const val CONNECTION_TIMEOUT = 15L
-        const val CLIENT_ID = "client_id"
-        const val CLIENT_SECRET = "client_secret"
-        const val API_VERSION_DATE = "20190329"
-        const val API_QUERY_V = "v"
+        private const val CONNECTION_TIMEOUT = 15L
+        private const val CLIENT_ID = "client_id"
+        private const val CLIENT_SECRET = "client_secret"
+        private const val API_VERSION_DATE = "20190329"
+        private const val API_QUERY_V = "v"
 
 
     }

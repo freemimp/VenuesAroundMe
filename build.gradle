@@ -47,4 +47,8 @@ ext {
     daggerVersion = '2.17'
     //coroutines
     coroutinesVersion = '1.1.1'
+    //rxjava
+    rxJavaVersion = '2.1.1'
+    rxAndroidVersion = '2.0.2'
+    rxKotlinVersion = '2.3.0'
 }

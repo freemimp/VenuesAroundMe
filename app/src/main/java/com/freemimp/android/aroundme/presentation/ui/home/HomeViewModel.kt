@@ -1,36 +1,41 @@
 package com.freemimp.android.aroundme.presentation.ui.home
 
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.arch.paging.LivePagedListBuilder
 import android.arch.paging.PagedList
-import com.freemimp.android.aroundme.data.FourSquareApi
+import com.freemimp.android.aroundme.domain.FindVenues
 import com.freemimp.android.aroundme.domain.Venue
-import com.freemimp.android.aroundme.domain.VenueRepository
 import com.freemimp.android.aroundme.presentation.pagination.VenueDataSourceFactory
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.freemimp.android.aroundme.utils.Event
 import javax.inject.Inject
 
-class HomeViewModel @Inject constructor(private val venueDataSourceFactory: VenueDataSourceFactory, private val venueRepository: VenueRepository, private val api: FourSquareApi) : ViewModel() {
+class HomeViewModel @Inject constructor(private val venueDataSourceFactory: VenueDataSourceFactory, private val findVenues: FindVenues) : ViewModel() {
+
+    val error = MutableLiveData<Event<String>>()
 
     private val pageListConfig = PagedList.Config.Builder()
-        .setEnablePlaceholders(true)
-        .setInitialLoadSizeHint(20)
-        .setPageSize(10)
-        .build()
+            .setEnablePlaceholders(false)
+            .setInitialLoadSizeHint(20)
+            .setPageSize(10)
+            .build()
 
     val venues = LivePagedListBuilder<Int, Venue>(venueDataSourceFactory, pageListConfig).build()
 
 
-
     fun fetchVenues(place: String) {
-       CoroutineScope(Dispatchers.IO).launch {
-           venueRepository.findVenues(place,10)
-
-       }
-
+        if (validPlace(place)) {
+            invalidateDataSource()
+        } else {
+            error.postValue(Event("Please enter valid place!"))
+        }
     }
 
-    fun validPlace(place: String?): Boolean = !place.isNullOrBlank()
+    fun getSourceErrors() = venueDataSourceFactory.sources.value?.errors
+
+    private fun validPlace(place: String?): Boolean = !place.isNullOrBlank()
+
+    private fun invalidateDataSource() = venueDataSourceFactory.sources.value?.invalidate()
+
+
 }

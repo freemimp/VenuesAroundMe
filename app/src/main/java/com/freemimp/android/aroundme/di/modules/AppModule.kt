@@ -7,13 +7,13 @@ import com.freemimp.android.aroundme.data.FourSquareVenueService
 import com.freemimp.android.aroundme.di.annotations.AppContext
 import com.freemimp.android.aroundme.domain.FindVenues
 import com.freemimp.android.aroundme.domain.VenueRepository
+import com.freemimp.android.aroundme.presentation.pagination.Place
 import com.freemimp.android.aroundme.presentation.pagination.VenueDataSource
 import com.freemimp.android.aroundme.presentation.pagination.VenueDataSourceFactory
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
-import java.util.concurrent.locks.ReentrantLock
 import javax.inject.Singleton
 
 @Module
@@ -28,18 +28,15 @@ class AppModule {
     fun providesAppContext(placesApp: PlacesApp): Context = placesApp
 
     @Provides
-    @Singleton
     fun providesVenueRepository(api: FourSquareApi): VenueRepository  = FourSquareVenueService(api)
 
     @Provides
-    @Singleton
     fun providesFindVenues(repository: VenueRepository) = FindVenues(repository)
 
     @Provides
-    fun providesVenuesDataSource(findVenues: FindVenues) = VenueDataSource("London", findVenues)
+    fun providesVenueDataSourceFactory(place: Place, findVenues: FindVenues) = VenueDataSourceFactory(place, findVenues)
 
     @Provides
-    fun providesVenueDataSourceFactory(venueDataSource: VenueDataSource) = VenueDataSourceFactory(venueDataSource)
-
-
+    @Singleton
+    fun providesPlace() = Place()
 }

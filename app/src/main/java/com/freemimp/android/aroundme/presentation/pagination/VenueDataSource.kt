@@ -11,46 +11,35 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class VenueDataSource @Inject constructor(private val place: String, private val findVenues: FindVenues) :
-    PositionalDataSource<Venue>() {
+class VenueDataSource (private val place: Place, private val findVenues: FindVenues) :
+        PositionalDataSource<Venue>() {
 
     val errors = MutableLiveData<Event<Throwable>>()
 
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<Venue>) {
         val startPosition = params.startPosition
-
-
-                CoroutineScope(Dispatchers.IO).launch {
-                    val venuesResponse: Maybe<List<Venue>>
-                            = findVenues.findVenuesFrom(startPosition, place)
-                    when (venuesResponse) {
-                        is Maybe.Success<List<Venue>> -> callback.onResult(venuesResponse.data)
-                        is Maybe.Error<*> -> {
-                            errors.postValue(Event(venuesResponse.error))
-//                Error { (loadRange(params, callback)) }.retry()
-                        }
-                    }
-                }
-
+        val loadSize = params.loadSize
+        CoroutineScope(Dispatchers.IO).launch {
+            val venuesResponse: Maybe<List<Venue>> = findVenues.findVenuesFrom(startPosition,loadSize,place.query)
+            when (venuesResponse) {
+                is Maybe.Success -> callback.onResult(venuesResponse.data)
+                is Maybe.Error -> errors.postValue(Event(venuesResponse.error))
+            }
+        }
     }
 
     override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<Venue>) {
         val position = params.requestedStartPosition
-        val size = params.pageSize
+        val size = params.requestedLoadSize
 
-                CoroutineScope(Dispatchers.IO).launch {
-                    val venuesResponse: Maybe<List<Venue>> = findVenues.findVenues(place, size)
-                    when (venuesResponse) {
-                        is Maybe.Success<List<Venue>> -> callback.onResult(venuesResponse.data, position, size)
-                        is Maybe.Error<*> -> {
-                            errors.postValue(Event(venuesResponse.error))
-//                Error { (loadInitial(params, callback)) }.retry()
-                        }
-                    }
-                }
+        CoroutineScope(Dispatchers.IO).launch {
+            val venuesResponse: Maybe<List<Venue>> = findVenues.findVenues(place.query, 10)
+            when (venuesResponse) {
+                is Maybe.Success -> callback.onResult(venuesResponse.data, position)
+                is Maybe.Error -> errors.postValue(Event(venuesResponse.error))
+            }
+        }
     }
-
-
 
 
     class Error(private val retry: () -> Any) {

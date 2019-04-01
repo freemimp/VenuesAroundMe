@@ -7,11 +7,12 @@ import retrofit2.http.Query
 
 interface FourSquareApi {
 
-    @GET("explore")
-    fun getVenues(@Query("near") place: String,
-                  @Query("limit") limit: Int): Deferred<Response<VenueByPlaceResponseModel>>
+//    @GET("explore")
+//    fun getVenues(@Query("near") place: String,
+//                  @Query("limit") limit: Int): Deferred<Response<VenueByPlaceResponseModel>>
 
     @GET("explore")
-    fun getVenuesFrom(@Query("near") place: String,
-                      @Query("offset") offset: Int): Deferred<Response<VenueByPlaceResponseModel>>
+    fun getVenues(@Query("limit") limit: Int,
+                      @Query("near") place: String,
+                      @Query("offset") offset: Int = 0): Deferred<Response<VenueByPlaceResponseModel>>
 }
