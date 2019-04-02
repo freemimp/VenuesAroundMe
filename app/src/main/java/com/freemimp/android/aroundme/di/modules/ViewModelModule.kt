@@ -1,7 +1,7 @@
 package com.freemimp.android.aroundme.di.modules
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.freemimp.android.aroundme.di.annotations.ViewModelKey
 import com.freemimp.android.aroundme.presentation.ViewModelFactory
 import com.freemimp.android.aroundme.presentation.ui.home.HomeViewModel

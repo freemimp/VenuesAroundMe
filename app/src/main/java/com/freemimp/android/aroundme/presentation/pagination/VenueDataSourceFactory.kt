@@ -1,7 +1,7 @@
 package com.freemimp.android.aroundme.presentation.pagination
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.paging.DataSource
+import androidx.lifecycle.MutableLiveData
+import androidx.paging.DataSource
 import com.freemimp.android.aroundme.domain.FindVenues
 import com.freemimp.android.aroundme.domain.Venue
 import javax.inject.Inject

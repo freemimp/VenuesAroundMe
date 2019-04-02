@@ -1,11 +1,10 @@
 package com.freemimp.android.aroundme.utils
 
 import android.content.Context
-import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 
 fun Fragment.snackbar(msg: String, view: View? = activity?.findViewById(android.R.id.content)) {
     view?.let {

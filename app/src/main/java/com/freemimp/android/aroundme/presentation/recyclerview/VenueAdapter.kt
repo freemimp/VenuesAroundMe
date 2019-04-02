@@ -1,8 +1,8 @@
 package com.freemimp.android.aroundme.presentation.recyclerview
 
-import android.arch.paging.PagedListAdapter
-import android.support.v7.util.DiffUtil
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import com.freemimp.android.aroundme.domain.Venue
 
 class VenueAdapter : PagedListAdapter<Venue, VenuesViewHolder>(diffCallback) {

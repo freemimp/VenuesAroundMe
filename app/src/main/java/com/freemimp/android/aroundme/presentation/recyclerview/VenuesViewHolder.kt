@@ -1,8 +1,10 @@
 package com.freemimp.android.aroundme.presentation.recyclerview
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+
+
+import androidx.recyclerview.widget.RecyclerView
 import com.freemimp.android.aroundme.R
 import com.freemimp.android.aroundme.domain.Venue
 import kotlinx.android.synthetic.main.layout_recyclerview_item_venue.view.addressTextView

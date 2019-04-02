@@ -2,7 +2,7 @@ package com.freemimp.android.aroundme.presentation
 
 import android.os.Bundle
 import com.freemimp.android.aroundme.R
-import com.freemimp.android.aroundme.presentation.home.HomeFragment
+import com.freemimp.android.aroundme.presentation.ui.home.HomeFragment
 import dagger.android.support.DaggerAppCompatActivity
 
 class MainActivity : DaggerAppCompatActivity() {

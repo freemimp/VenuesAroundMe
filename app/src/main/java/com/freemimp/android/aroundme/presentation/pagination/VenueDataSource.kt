@@ -1,7 +1,8 @@
 package com.freemimp.android.aroundme.presentation.pagination
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.paging.PositionalDataSource
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.paging.PositionalDataSource
 import com.freemimp.android.aroundme.domain.FindVenues
 import com.freemimp.android.aroundme.domain.Maybe
 import com.freemimp.android.aroundme.domain.Venue
@@ -9,12 +10,12 @@ import com.freemimp.android.aroundme.utils.Event
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class VenueDataSource (private val place: Place, private val findVenues: FindVenues) :
         PositionalDataSource<Venue>() {
 
-    val errors = MutableLiveData<Event<Throwable>>()
+    private val _error = MutableLiveData<Event<Throwable>>()
+    val errors: LiveData<Event<Throwable>> = _error
 
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<Venue>) {
         val startPosition = params.startPosition
@@ -23,20 +24,20 @@ class VenueDataSource (private val place: Place, private val findVenues: FindVen
             val venuesResponse: Maybe<List<Venue>> = findVenues.findVenuesFrom(startPosition,loadSize,place.query)
             when (venuesResponse) {
                 is Maybe.Success -> callback.onResult(venuesResponse.data)
-                is Maybe.Error -> errors.postValue(Event(venuesResponse.error))
+                is Maybe.Error -> _error.postValue(Event(venuesResponse.error))
             }
         }
     }
 
     override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<Venue>) {
-        val position = params.requestedStartPosition
         val size = params.requestedLoadSize
+        if (place.query.isEmpty()) return
 
         CoroutineScope(Dispatchers.IO).launch {
-            val venuesResponse: Maybe<List<Venue>> = findVenues.findVenues(place.query, 10)
+            val venuesResponse: Maybe<List<Venue>> = findVenues.findVenues(place.query, size)
             when (venuesResponse) {
-                is Maybe.Success -> callback.onResult(venuesResponse.data, position)
-                is Maybe.Error -> errors.postValue(Event(venuesResponse.error))
+                is Maybe.Success -> callback.onResult(venuesResponse.data, 0)
+                is Maybe.Error -> _error.postValue(Event(venuesResponse.error))
             }
         }
     }
