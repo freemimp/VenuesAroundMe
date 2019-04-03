@@ -14,8 +14,11 @@ import com.freemimp.android.aroundme.R
 import com.freemimp.android.aroundme.domain.Venue
 import com.freemimp.android.aroundme.presentation.ViewModelFactory
 import com.freemimp.android.aroundme.presentation.pagination.Place
+import com.freemimp.android.aroundme.presentation.pagination.VenueDataSource
 import com.freemimp.android.aroundme.presentation.recyclerview.VenueAdapter
+import com.freemimp.android.aroundme.utils.hideKeyboard
 import com.freemimp.android.aroundme.utils.snackbar
+import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.home_fragment.actionButton
 import kotlinx.android.synthetic.main.home_fragment.placesTextView
@@ -37,18 +40,6 @@ class HomeFragment : DaggerFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(HomeViewModel::class.java)
-
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.home_fragment, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupRecyclerView()
-        actionButton.setOnClickListener { showVenues() }
         viewModel.venues.observe(this, Observer { pagedListOfVenues ->
             pagedListOfVenues?.let {
                 present(pagedListOfVenues)
@@ -62,10 +53,30 @@ class HomeFragment : DaggerFragment() {
         })
 
         viewModel.sourceError.observe(this, Observer { error ->
-            error.getContentIfNotHandled()?.let {
-                snackbar(getString(R.string.generic_network_response_error))
+            error.getContentIfNotHandled()?.let { sourceError ->
+                showSnackbar(sourceError)
             }
         })
+
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View {
+        return inflater.inflate(R.layout.home_fragment, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
+        actionButton.setOnClickListener { showVenues() }
+    }
+
+    private fun showSnackbar(sourceError: VenueDataSource.Error) {
+        Snackbar.make(activity!!.findViewById(android.R.id.content),
+                R.string.generic_network_response_error,
+                Snackbar.LENGTH_INDEFINITE).setAction(R.string.retry) {
+            retry(sourceError)
+        }.show()
     }
 
     private fun present(pagedListOfVenues: PagedList<Venue>) {
@@ -78,7 +89,12 @@ class HomeFragment : DaggerFragment() {
         venuesRecyclerView.adapter = recyclerViewAdapter
     }
 
+    private fun retry(error: VenueDataSource.Error) {
+        error.retry()
+    }
+
     private fun showVenues() {
+        hideKeyboard()
         val query = placesTextView.text.toString()
         place.query = query
         viewModel.fetchVenues(query)

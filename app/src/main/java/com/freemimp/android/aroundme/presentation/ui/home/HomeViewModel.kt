@@ -16,7 +16,7 @@ class HomeViewModel @Inject constructor(private val venueDataSourceFactory: Venu
 
     val error = MutableLiveData<Event<String>>()
     private val source = MutableLiveData<VenueDataSource>()
-    val sourceError: LiveData<Event<Throwable>> = Transformations.switchMap(source) {
+    val sourceError: LiveData<Event<VenueDataSource.Error>> = Transformations.switchMap(source) {
         getSourceError(it)
     }
 
@@ -38,11 +38,11 @@ class HomeViewModel @Inject constructor(private val venueDataSourceFactory: Venu
         }
     }
 
-    fun getSourceError(venueDataSource: VenueDataSource): LiveData<Event<Throwable>> {
+    private fun getSourceError(venueDataSource: VenueDataSource): LiveData<Event<VenueDataSource.Error>>? {
         val source = venueDataSourceFactory.sources
         source.value = venueDataSource
 
-        return source.value?.errors!!
+        return source.value?.errors
     }
 
     private fun validPlace(place: String?): Boolean = !place.isNullOrBlank()

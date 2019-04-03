@@ -36,9 +36,9 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
-    implementation "com.google.android.material:material:$supportLibVersion"
-    implementation "androidx.cardview:cardview:$supportLibVersion"
-    implementation "androidx.recyclerview:recyclerview:$supportLibVersion"
+    implementation "com.google.android.material:material:$materialDesignVersion"
+    implementation "androidx.cardview:cardview:$cardviewVersion"
+    implementation "androidx.recyclerview:recyclerview:$recyclerViewVersion"
     implementation "androidx.paging:paging-runtime:$pagingLibraryVersion"
 
     //test
@@ -70,10 +70,5 @@ dependencies {
     //coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
-
-    //rxjava
-    implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
-    implementation "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion"
-    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
 
 }

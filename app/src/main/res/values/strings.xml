@@ -2,6 +2,6 @@
     <string name="app_name">AroundMe</string>
     <string name="hint_place">Place e.g. Holborn, London, United Kingdom</string>
     <string name="find_venues_around">Find venues around</string>
-    <string name="error_invalid_place">Please enter valid place!</string>
     <string name="generic_network_response_error">Can\'t get venues at the moment, please try again later</string>
+    <string name="retry">Retry</string>
 </resources>

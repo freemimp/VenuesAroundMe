@@ -8,7 +8,7 @@ import com.freemimp.android.aroundme.domain.Venue
 class VenueAdapter : PagedListAdapter<Venue, VenuesViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VenuesViewHolder {
-       return VenuesViewHolder(parent)
+        return VenuesViewHolder(parent)
     }
 
     override fun onBindViewHolder(holder: VenuesViewHolder, position: Int) {
@@ -22,7 +22,7 @@ class VenueAdapter : PagedListAdapter<Venue, VenuesViewHolder>(diffCallback) {
     companion object {
         private val diffCallback = object : DiffUtil.ItemCallback<Venue>() {
             override fun areItemsTheSame(oldItem: Venue, newItem: Venue): Boolean {
-               return oldItem.id == newItem.id
+                return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(oldItem: Venue, newItem: Venue): Boolean {

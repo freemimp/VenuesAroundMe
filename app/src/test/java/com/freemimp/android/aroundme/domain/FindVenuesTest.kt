@@ -1,13 +1,29 @@
 package com.freemimp.android.aroundme.domain
 
-import com.freemimp.android.aroundme.BaseTest
+import com.freemimp.android.aroundme.testdata.TestData.limit
+import com.freemimp.android.aroundme.testdata.TestData.offset
+import com.freemimp.android.aroundme.testdata.TestData.query
 import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.runBlocking
+import org.junit.Before
 import org.junit.Test
+import org.mockito.InjectMocks
+import org.mockito.Mock
 import org.mockito.Mockito
+import org.mockito.MockitoAnnotations
 
-class FindVenuesTest : BaseTest() {
+class FindVenuesTest {
 
+    @Mock
+    lateinit var venueRepository: VenueRepository
+
+    @InjectMocks
+    lateinit var findVenues: FindVenues
+
+    @Before
+    fun setUp() {
+        MockitoAnnotations.initMocks(this)
+    }
 
     @Test
     fun givenPlaceAndLimitWhenFindVenuesThenRepositoryFindVenuesCalledOnce() {

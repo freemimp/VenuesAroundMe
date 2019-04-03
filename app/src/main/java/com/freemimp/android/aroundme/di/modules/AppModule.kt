@@ -8,7 +8,6 @@ import com.freemimp.android.aroundme.di.annotations.AppContext
 import com.freemimp.android.aroundme.domain.FindVenues
 import com.freemimp.android.aroundme.domain.VenueRepository
 import com.freemimp.android.aroundme.presentation.pagination.Place
-import com.freemimp.android.aroundme.presentation.pagination.VenueDataSource
 import com.freemimp.android.aroundme.presentation.pagination.VenueDataSourceFactory
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder

@@ -10,10 +10,10 @@ import javax.inject.Inject
 class FourSquareVenueService @Inject constructor(private val api: FourSquareApi) : VenueRepository {
     override suspend fun findVenues(place: String, limit: Int, offset: Int): Maybe<List<Venue>> {
         return try {
-            val request = api.getVenues(limit, place, limit).await()
+            val request = api.getVenuesAsync(limit, place, offset).await()
 
             if (request.isSuccessful) {
-                val venues = mapToDomainModel(request)
+                val venues:List<Venue> = mapToDomainModel(request)
                 Maybe.Success(venues)
             } else {
                 Maybe.Error(RuntimeException(request.errorBody()?.string()))

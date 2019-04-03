@@ -12,14 +12,11 @@ import kotlinx.android.synthetic.main.layout_recyclerview_item_venue.view.catego
 import kotlinx.android.synthetic.main.layout_recyclerview_item_venue.view.nameTextView
 
 class VenuesViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
-    LayoutInflater
-        .from(parent.context)
-        .inflate(
-            R.layout.layout_recyclerview_item_venue,
-            parent,
-            false
-        )
-) {
+        LayoutInflater.from(parent.context).inflate(
+                R.layout.layout_recyclerview_item_venue,
+                parent,
+                false)) {
+
     private var venue: Venue? = null
 
     fun bindTo(venue: Venue?) {

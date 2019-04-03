@@ -1,4 +1,4 @@
-package com.freemimp.android.aroundme.presentation.home.di
+package com.freemimp.android.aroundme.presentation.ui.home.di
 
 import com.freemimp.android.aroundme.presentation.ui.home.HomeFragment
 import dagger.Module
