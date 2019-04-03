@@ -47,17 +47,16 @@ class HomeFragment : DaggerFragment() {
         })
 
         viewModel.error.observe(this, Observer { error ->
-            error?.getContentIfNotHandled()?.let {
+            error.getContentIfNotHandled()?.let {
                 snackbar(it)
             }
         })
 
         viewModel.sourceError.observe(this, Observer { error ->
-            error.getContentIfNotHandled()?.let { sourceError ->
-                showSnackbar(sourceError)
+            error.getContentIfNotHandled()?.let {
+                showSnackbar(it)
             }
         })
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

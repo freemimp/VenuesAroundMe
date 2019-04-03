@@ -15,9 +15,9 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(private val venueDataSourceFactory: VenueDataSourceFactory) : ViewModel() {
 
     val error = MutableLiveData<Event<String>>()
-    private val source = MutableLiveData<VenueDataSource>()
-    val sourceError: LiveData<Event<VenueDataSource.Error>> = Transformations.switchMap(source) {
-        getSourceError(it)
+
+    val sourceError: LiveData<Event<VenueDataSource.Error>> = Transformations.switchMap(venueDataSourceFactory.sources) {
+        it.errors
     }
 
     private val pageListConfig = PagedList.Config.Builder()
@@ -32,17 +32,9 @@ class HomeViewModel @Inject constructor(private val venueDataSourceFactory: Venu
     fun fetchVenues(place: String) {
         if (validPlace(place)) {
             invalidateDataSource()
-            source.value = venueDataSourceFactory.sources.value
         } else {
             error.postValue(Event("Please enter valid place!"))
         }
-    }
-
-    private fun getSourceError(venueDataSource: VenueDataSource): LiveData<Event<VenueDataSource.Error>>? {
-        val source = venueDataSourceFactory.sources
-        source.value = venueDataSource
-
-        return source.value?.errors
     }
 
     private fun validPlace(place: String?): Boolean = !place.isNullOrBlank()
@@ -50,7 +42,7 @@ class HomeViewModel @Inject constructor(private val venueDataSourceFactory: Venu
     private fun invalidateDataSource() = venueDataSourceFactory.sources.value?.invalidate()
 
     companion object {
-      private const val PAGE_SIZE = 20
+        private const val PAGE_SIZE = 20
     }
 
 }

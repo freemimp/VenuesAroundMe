@@ -20,11 +20,12 @@ class VenueDataSource(private val place: Place, private val findVenues: FindVenu
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<Venue>) {
         val startPosition = params.startPosition
         val loadSize = params.loadSize
+
         CoroutineScope(Dispatchers.IO).launch {
-            val venuesResponse: Maybe<List<Venue>> = findVenues.findVenuesFrom(startPosition, loadSize, place.query)
+            val venuesResponse: Maybe<List<Venue>> = findVenues.findVenuesFrom(loadSize, startPosition, place.query)
             when (venuesResponse) {
                 is Maybe.Success -> callback.onResult(venuesResponse.data)
-                is Maybe.Error -> _error.postValue(Event(Error{loadRange(params, callback)}))
+                is Maybe.Error -> _error.postValue(Event(Error { loadRange(params, callback) }))
             }
         }
     }
@@ -37,7 +38,7 @@ class VenueDataSource(private val place: Place, private val findVenues: FindVenu
             val venuesResponse: Maybe<List<Venue>> = findVenues.findVenues(place.query, size)
             when (venuesResponse) {
                 is Maybe.Success -> callback.onResult(venuesResponse.data, 0)
-                is Maybe.Error -> _error.postValue(Event(Error{loadInitial(params, callback)}))
+                is Maybe.Error -> _error.postValue(Event(Error { loadInitial(params, callback) }))
             }
         }
     }
