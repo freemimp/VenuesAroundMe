@@ -1,4 +1,4 @@
-package com.freemimp.android.aroundme.restapi.models
+package com.freemimp.android.aroundme.data
 
 import com.google.gson.annotations.SerializedName
 
@@ -29,7 +29,7 @@ data class Group(
         val items: List<Item>,
         @SerializedName("name")
         val name: String,
-        @SerializedName("type")
+        @SerializedName("venueType")
         val type: String
 )
 
@@ -54,8 +54,18 @@ data class Venue(
 )
 
 data class Location(
-        @SerializedName("formattedAddress")
-        val formattedAddress: List<String>
+        @SerializedName("address")
+        val address: String,
+        @SerializedName("cc")
+        val cc: String,
+        @SerializedName("city")
+        val city: String,
+        @SerializedName("country")
+        val country: String,
+        @SerializedName("postalCode")
+        val postalCode: String,
+        @SerializedName("state")
+        val state: String
 )
 
 

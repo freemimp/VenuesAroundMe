@@ -1,6 +1,6 @@
-package com.freemimp.android.aroundme.ui.home.di
+package com.freemimp.android.aroundme.presentation.ui.home.di
 
-import com.freemimp.android.aroundme.ui.home.HomeFragment
+import com.freemimp.android.aroundme.presentation.ui.home.HomeFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
